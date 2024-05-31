@@ -11,3 +11,8 @@ if (!$conn) {
 }else {
 // echo "Connection successfully";
 }
+
+// function cari($keyword) {
+//     $query = "select * from view_gaji_karyawan
+//     where Nama = '$keyword'";
+// }

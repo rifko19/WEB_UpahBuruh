@@ -15,32 +15,13 @@
 
 <body>
     <!-- Header Start -->
-    <div class="header">
-        <header class="header-top">
-            <div href="#" class="logo">
-                <img src="Assets/images/Logo.png" width="60"><a href="#">Pabrik Batta</a>
-            </div>
-
-            <div class="navbar-btn">
-                <a href="#home" class="active"><i class="fa-regular fa-bell fa-2xl"></i></a>
-                <a href="Login-page.html" class="active"><i class="fa-regular fa-circle-user fa-2xl"></i></a>
-            </div>
-        </header>
-
-    </div>
+    <?php include 'assets/header.php'; ?>
     <!-- Header End -->
+
     <div class="container">
+
         <!-- Sidebar Start -->
-        <div class="sidebar">
-            <ul class="nav">
-                <li><a href="Home-page.html"><i class="fa fa-home"></i>Home</a></li>
-                <li><a href="Report.php"><i class="fa fa-file"></i>Report</a></li>
-                <li><a href="Time-Management.php"><i class="fa fa-calendar-days"></i>Time Management</a></li>
-                <li><a href="Employee.php"><i class="fa fa-address-card"></i>Employee data</a></li>
-                <li><a href="Payroll.php"><i class="fa fa-address-card"></i>Payroll</a></li>
-                <li><a href="#"><i class="fa fa-right-from-bracket"></i>Log-Out</a></li>
-            </ul>
-        </div>
+        <?php include 'assets/sidebar.php'; ?>
         <!-- Sidebar End -->
 
 
@@ -62,18 +43,18 @@
                                         <thead>
                                             <tr>
                                                 <th>ID Gaji</th>
-                                                <th>Gaji Buruh Lepas</th>
+                                                <th>Gaji Buruh Kasar</th>
                                                 <th>Gaji Operator</th>
-                                                <th>ID Buruh</th>
+                                                <th>Tanggal Kerja</th>
                                             </tr>
                                         </thead>
                                         <tbody>';
                         while ($row_gaji = $result_gaji->fetch_assoc()) {
                             echo '<tr>
-                                    <td>' . $row_gaji['id_Gaji'] . '</td>
-                                    <td>' . $row_gaji['GajiBuruhLepas'] . '</td>
-                                    <td>' . $row_gaji['GajiOperator'] . '</td>
-                                    <td>' . $row_gaji['id_buruh'] . '</td>
+                                    <td>' . $row_gaji['Id_gaji'] . '</td>
+                                    <td>' . $row_gaji['Gaji_buruh_kasar'] . '</td>
+                                    <td>' . $row_gaji['Gaji_Operator'] . '</td>
+                                    <td>' . $row_gaji['Tanggal_Kerja'] . '</td>
                                 </tr>';
                         }
 
@@ -98,47 +79,11 @@
 
 
     <!-- Footer Start-->
-    <footer class="footer-distributed">
-
-        <div class="footer-left">
-            <img class="Unsri" src="Assets/images/UnsriLogo.png">
-            <img class="PB" src="Assets/images/Logo.png">
-            <h3>UNSRI | <span> Batta</span></h3>
-
-            <p class="footer-company-name">Copyright by Kelompok 5.</p>
-        </div>
-
-        <div class="footer-center">
-            <div>
-                <i class="fa fa-map-pin"></i>
-                <p>Fasilkom Unsri bukit</p>
-            </div>
-
-            <div>
-                <i class="fa fa-phone"></i>
-                <p>+628 2181 6824 61</p>
-            </div>
-            <div>
-                <i class="fa fa-envelope"></i>
-                <p><a href="mailto:kelompok5@gmail.com">kelompok5@gmail.com</a></p>
-            </div>
-        </div>
-        <div class="footer-right">
-            <p class="footer-company-about">
-                <span>About the company</span>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime cupiditate at recusandae distinctio
-                veritatis doloremque doloribus quam libero facilis mollitia similique pariatur ex voluptates aut dolor,
-                corporis rem totam laborum.
-            </p>
-            <div class="footer-icons">
-                <a href="https://github.com/rifko19?tab=repositories"><i class="fa fa-github"></i></a>
-                <a href="#"><i class="fa fa-instagram"></i></a>
-                <a href="https://www.linkedin.com/in/rifko-akbar-592915249/"><i class="fa fa-linkedin"></i></a>
-            </div>
-        </div>
-    </footer>
+    <?php include 'assets/footer.php'; ?>
     <!-- Footer End-->
 
+
+    <script src="Assets/JS/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
