@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Clicker+Script&family=Poppins:wght@200;300;400;500;600;700&family=Roboto:wght@100&display=swap');
 
 :root {
-    --bg: #465972;
+    --bg: #343A40;
     --text: #FFF0CE;
     --btn: #FFC436;
 }
@@ -202,7 +202,7 @@ body {
     font-size: 1.1rem;
     margin-top: 1rem;
     line-height: 1.2;
-    text-shadow: 1px 1px 3px rgb(124, 124, 124);
+    text-shadow: 1px 1px 3px rgb(214, 220, 237);
 }
 
 .hero .content .cta {
@@ -396,7 +396,7 @@ footer {
 
 .footer-distributed {
     border-top: 3px solid var(--text);
-    background-color: #324865;
+    background-color: #343A40;
     box-sizing: border-box;
     width: 100%;
     text-align: left;

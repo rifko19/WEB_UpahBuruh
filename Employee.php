@@ -1,33 +1,3 @@
-<?php
-include 'connect.php';
-
-$nama = isset($_POST['nama']) ? $_POST['nama'] : '';
-$alamat = isset($_POST['alamat']) ? $_POST['alamat'] : '';
-$tanggal = isset($_POST['tanggal']) ? $_POST['tanggal'] : '';
-$jenis_kelamin = isset($_POST['jenis_kelamin']) ? $_POST['jenis_kelamin'] : '';
-$kategori_keahlian = isset($_POST['kategori_keahlian']) ? $_POST['kategori_keahlian'] : '';
-
-if (empty($nama) || empty($alamat) || empty($tanggal) || empty($jenis_kelamin) || empty($kategori_keahlian)) {
-    // echo "Semua kolom harus diisi.";
-} else {
-   
-    $stmt = $conn->prepare("INSERT INTO tb_buruh (id_buruh, Nama, Alamat, Jenis_Kelamin, Tanggal_Lahir, Kategori_Keahlian) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $id_buruh, $nama, $alamat, $jenis_kelamin, $tanggal, $kategori_keahlian);
-
-
-    $id_buruh = date('YmdHis');
-
-    if ($stmt->execute()) {
-        // echo "Data berhasil dimasukkan.";
-    } else {
-        echo "Error: " . $stmt->error;
-    }
-
-    $stmt->close();
-}
-
-$conn->close();
-?>
 
 <!-- Hapus Data -->
 <?php
@@ -76,38 +46,73 @@ $conn->close();
     <link rel="icon" type="image/x-icon" href="Assets/images/Logo.png">
     <script src="https://kit.fontawesome.com/63c084cc86.js" crossorigin="anonymous"></script>
 
+    <!-- Link Toastr -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <!-- LINK CSS -->
     <link rel="stylesheet" href="Assets/css/style.css">
 </head>
 
 <body>
+            
+        <?php
+        include 'connect.php';
+
+        $Id_buruh = isset($_POST['Id_buruh']) ? $_POST['Id_buruh'] : '';
+        $nama = isset($_POST['Nama']) ? $_POST['Nama'] : '';
+        $jenis_kelamin = isset($_POST['Jenis_Kelamin']) ? $_POST['Jenis_Kelamin'] : '';
+        $tanggal_lahir = isset($_POST['Tanggal_Lahir']) ? $_POST['Tanggal_Lahir'] : '';
+        $alamat = isset($_POST['Alamat']) ? $_POST['Alamat'] : '';
+        $kategori_keahlian = isset($_POST['Kategori_Keahlian']) ? $_POST['Kategori_Keahlian'] : '';
+
+        if (empty($Id_buruh) || empty($nama) || empty($jenis_kelamin) || empty($tanggal_lahir) || empty($alamat) || empty($kategori_keahlian)) {
+            // echo "Semua kolom harus diisi.";
+        } else {
+            $stmt = $conn->prepare("INSERT INTO tb_buruh (Id_buruh, Nama, Jenis_Kelamin, Tanggal_Lahir, Alamat, Kategori_Keahlian) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("ssssss", $Id_buruh, $nama, $jenis_kelamin, $tanggal_lahir, $alamat, $kategori_keahlian);
+
+            if ($stmt->execute()) {
+                ?>
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+                    <script>
+                        toastr.options = {
+                        "closeButton": true,
+                        "debug": true,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-center",
+                        "preventDuplicates": true,
+                        "onclick": null,
+                        "showDuration": 300,
+                        "hideDuration": 100,
+                        "timeOut": 5000,
+                        "extendedTimeOut": 1000,
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                        };
+                        
+                        toastr["success"]("Berhasil");
+                    </script>
+                    <?php
+            } else {
+                echo "Error: " . $stmt->error;
+            }
+
+            $stmt->close();
+        }
+
+        $conn->close();
+        ?>
+
     <!-- Header Start -->
-    <div class="header">
-        <header class="header-top">
-            <div href="#" class="logo">
-                <img src="Assets/images/Logo.png" width="60"><a href="#">Pabrik Batta</a>
-            </div>
-
-            <div class="navbar-btn">
-                <a href="#home" class="active"><i class="fa-regular fa-bell fa-2xl"></i></a>
-                <a href="Login-page.html" class="active"><i class="fa-regular fa-circle-user fa-2xl"></i></a>
-            </div>
-        </header>
-
-    </div>
+    <?php include 'assets/header.php'; ?>
     <!-- Header End -->
+    
     <div class="container">
         <!-- Sidebar Start -->
-        <div class="sidebar">
-            <ul class="nav">
-                <li><a href="Home-page.html"><i class="fa fa-home"></i>Home</a></li>
-                <li><a href="Report.php"><i class="fa fa-file"></i>Report</a></li>
-                <li><a href="Time-Management.php"><i class="fa fa-calendar-days"></i>Time Management</a></li>
-                <li><a href="Employee.php"><i class="fa fa-address-card"></i>Employee data</a></li>
-                <li><a href="Payroll.php"><i class="fa fa-address-card"></i>Payroll</a></li>
-                <li><a href="#"><i class="fa fa-right-from-bracket"></i>Log-Out</a></li>
-            </ul>
-        </div>
+        <?php include 'assets/sidebar.php'; ?>
         <!-- Sidebar End -->
 
 
@@ -117,43 +122,47 @@ $conn->close();
                 <h2>Data Buruh</h2>
                 <div class="tabular--wrapper1">
                     <div class="table-container1">
-                            <form action="Employee.php" method="POST">
-                                    <table>
-                                        <tbody class="form">
-                                            <tr class="form-1">
-                                                <td class="form-1"><label for="nama">Nama</label></td>
-                                                <td class="form-1"> : <input type="text" id="nama" name="nama" required /></td>
-                                            </tr>
-                                            <tr class="form-1">
-                                                <td class="form-1"><label for="alamat">Alamat</label></td>
-                                                <td class="form-1"> : <input type="text" id="alamat" name="alamat" required /></td>
-                                            </tr>
-                                            <tr class="form-1">
-                                                <td class="form-1"><label for="tanggal">Tanggal</label></td>
-                                                <td class="form-1"> : <input type="date" id="tanggal" name="tanggal" required></td>
-                                            </tr>
-                                            <tr class="form-1">
-                                                <td class="form-1"><label>Jenis Kelamin</label></td>
-                                                <td class="form-1"> :
-                                                    <input type="radio" id="laki_laki" name="jenis_kelamin" value="Laki-laki" required>
-                                                    <label for="laki_laki">Laki-laki</label>
-                                                    <input type="radio" id="perempuan" name="jenis_kelamin" value="Perempuan" required>
-                                                    <label for="perempuan">Perempuan</label>
-                                                </td>
-                                            </tr>
-                                            <tr class="form-1">
-                                                <td class="form-1"><label for="kategori_keahlian">Kategori Keahlian</label></td>
-                                                <td class="form-1"> :
-                                                    <select id="kategori_keahlian" name="kategori_keahlian">
-                                                        <option value="Buruh Kasar">Buruh Kasar</option>
-                                                        <option value="Operator">Buruh Operator</option>
-                                                    </select>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                <button type="submit" class="input">Masukkan</button>
-                            </form>
+                    <form action="Employee.php" method="POST">
+                        <table>
+                            <tbody class="form">
+                                <tr class="form-1">
+                                    <td class="form-1"><label for="Id_buruh">Id Buruh</label></td>
+                                    <td class="form-1"> : <input type="text" id="Id_buruh" name="Id_buruh" required /></td>
+                                </tr>
+                                <tr class="form-1">
+                                    <td class="form-1"><label for="Nama">Nama</label></td>
+                                    <td class="form-1"> : <input type="text" id="Nama" name="Nama" required /></td>
+                                </tr>
+                                <tr class="form-1">
+                                    <td class="form-1"><label for="Alamat">Alamat</label></td>
+                                    <td class="form-1"> : <input type="text" id="Alamat" name="Alamat" required /></td>
+                                </tr>
+                                <tr class="form-1">
+                                    <td class="form-1"><label for="Tanggal_Lahir">Tanggal</label></td>
+                                    <td class="form-1"> : <input type="date" id="Tanggal_Lahir" name="Tanggal_Lahir" required></td>
+                                </tr>
+                                <tr class="form-1">
+                                    <td class="form-1"><label>Jenis Kelamin</label></td>
+                                    <td class="form-1"> :
+                                        <input type="radio" id="laki_laki" name="Jenis_Kelamin" value="L" required>
+                                        <label for="laki_laki">Laki-laki</label>
+                                        <input type="radio" id="perempuan" name="Jenis_Kelamin" value="P" required>
+                                        <label for="perempuan">Perempuan</label>
+                                    </td>
+                                </tr>
+                                <tr class="form-1">
+                                    <td class="form-1"><label for="kategori_keahlian">Kategori Keahlian</label></td>
+                                    <td class="form-1"> :
+                                        <select id="kategori_keahlian" name="Kategori_Keahlian"> <!-- Changed name attribute -->
+                                            <option value="Buruh Kasar">Buruh Kasar</option>
+                                            <option value="Operator">Buruh Operator</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button type="submit" class="input">Masukkan</button>
+                    </form>
                         </div>
                     </div>
 
@@ -178,23 +187,18 @@ $conn->close();
                                                     <th>Tanggal Lahir</th>
                                                     <th>Jenis Kelamin</th>
                                                     <th>Kategori Keahlian</th>
-                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>';
 
                             while ($row_buruh = $result_buruh->fetch_assoc()) {
                                 echo '<tr>
-                                        <td>' . $row_buruh['id_buruh'] . '</td>
+                                        <td>' . $row_buruh['Id_buruh'] . '</td>
                                         <td>' . $row_buruh['Nama'] . '</td>
                                         <td>' . $row_buruh['Alamat'] . '</td>
                                         <td>' . $row_buruh['Tanggal_Lahir'] . '</td>
                                         <td>' . $row_buruh['Jenis_Kelamin'] . '</td>
                                         <td>' . $row_buruh['Kategori_Keahlian'] . '</td>
-                                        <td>
-                                            <a href="#" class="tb-edit" data-id="' . $row_buruh['id_buruh'] . '"><i class="fa-solid fa-pen-to-square"></i></a>
-                                            <a href="#" class="tb-hapus" data-id="' . $row_buruh['id_buruh'] . '"><i class="fa-solid fa-trash"></i></a>
-                                        </td>
                                     </tr>';
 
                             }
@@ -221,45 +225,7 @@ $conn->close();
 
 
     <!-- Footer Start-->
-    <footer class="footer-distributed">
-
-        <div class="footer-left">
-            <img class="Unsri" src="Assets/images/UnsriLogo.png">
-            <img class="PB" src="Assets/images/Logo.png">
-            <h3>UNSRI | <span> Batta</span></h3>
-
-            <p class="footer-company-name">Copyright by Kelompok 5.</p>
-        </div>
-
-        <div class="footer-center">
-            <div>
-                <i class="fa fa-map-pin"></i>
-                <p>Fasilkom Unsri bukit</p>
-            </div>
-
-            <div>
-                <i class="fa fa-phone"></i>
-                <p>+628 2181 6824 61</p>
-            </div>
-            <div>
-                <i class="fa fa-envelope"></i>
-                <p><a href="mailto:kelompok5@gmail.com">kelompok5@gmail.com</a></p>
-            </div>
-        </div>
-        <div class="footer-right">
-            <p class="footer-company-about">
-                <span>About the company</span>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime cupiditate at recusandae distinctio
-                veritatis doloremque doloribus quam libero facilis mollitia similique pariatur ex voluptates aut dolor,
-                corporis rem totam laborum.
-            </p>
-            <div class="footer-icons">
-                <a href="https://github.com/rifko19?tab=repositories"><i class="fa fa-github"></i></a>
-                <a href="#"><i class="fa fa-instagram"></i></a>
-                <a href="#"><i class="fa fa-linkedin"></i></a>
-            </div>
-        </div>
-    </footer>
+    <?php include 'assets/footer.php'; ?>
     <!-- Footer End-->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
